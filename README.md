@@ -12,7 +12,13 @@ Hier findest du die veröffentlichten Versionen, Anleitungen und Versionshinweis
 | --- | --- | --- | --- |
 | **🌉 Drawbridge** | Animierte Zugbrücken mit anpassbaren Materialien, Redstone und optionalen Ketten | **1.0 RC1.1** · Release Candidate | **[Drawbridge öffnen](./Releases/Drawbridge/README.md)** |
 | **📏 More_Build_Range** | Einstellbare Baureichweite für Minecraft Bedrock | **1.5.0 in Entwicklung** · noch kein freigegebener Download | **[More_Build_Range öffnen](./Releases/More_Build_Range/README.md)** |
-| **🛠️ Bulk-Installer / Uninstaller** | Werkzeuge zum Installieren und Entfernen mehrerer Bedrock-Add-ons | **Installer V11.8 / Uninstaller V1.5** · verfügbar | **[Installer / Uninstaller öffnen](./Releases/Bulk-Installer-Uninstaller/README.md)** |
+| **🛠️ Bulk-Installer / Uninstaller** | Ganze Add-on-Sammlungen in einem Durchgang installieren oder gezielt gemeinsam deinstallieren | **Installer V11.8 / Uninstaller V1.5** · verfügbar | **[Installer / Uninstaller öffnen](./Releases/Bulk-Installer-Uninstaller/README.md)** |
+
+## 🛠️ Warum Bulk-Installer und Uninstaller?
+
+**Minecraft Bedrock importiert Add-on-Dateien normalerweise einzeln.** Mit unseren Windows-Werkzeugen kannst du dagegen **eine komplette Sammlung von `.mcpack`-, `.mcaddon`- und `.zip`-Archiven in einem Durchgang installieren**. Der Uninstaller ermöglicht anschließend die **gemeinsame, gezielte Deinstallation mehrerer installierter Packs** statt jedes einzeln zu behandeln. Das spart gerade bei umfangreichen Add-on-Sammlungen viele wiederholte Arbeitsschritte.
+
+[Mehr über den Bulk-Installer und Uninstaller erfahren](./Releases/Bulk-Installer-Uninstaller/README.md).
 
 ## ⬇️ Downloads
 
