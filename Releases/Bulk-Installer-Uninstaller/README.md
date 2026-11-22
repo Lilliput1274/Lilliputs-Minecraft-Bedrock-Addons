@@ -1,8 +1,16 @@
 # 🛠️ Minecraft Bedrock Batch Installer / Uninstaller
 
-**Zwei eigenständige Windows-Werkzeuge zur Installation und Deinstallation von Minecraft-Bedrock-Add-ons.**
+**Ganze Minecraft-Bedrock-Add-on-Sammlungen auf einmal installieren – und mehrere Packs ebenso bequem wieder entfernen.**
 
 Beide Programme sind **keine Minecraft-Packs**. Die ZIP-Dateien werden unter Windows entpackt und über die enthaltene `.cmd`-Startdatei ausgeführt.
+
+## 🚀 Der entscheidende Vorteil gegenüber Minecraft Bedrock
+
+Während Minecraft Bedrock Add-on-Dateien normalerweise **einzeln importiert**, erledigt der **Bulk-Installer die Installation einer gesamten Paket-Sammlung in einem einzigen Durchlauf**. Du legst die `.mcpack`-, `.mcaddon`- und `.zip`-Dateien gemeinsam in einen Ordner. Der Installer durchsucht die Archive, erkennt die enthaltenen Behavior- und Resource-Packs, prüft Versionen und Abhängigkeiten und verarbeitet sie anhand eines gemeinsamen Installationsplans.
+
+Der **Bulk-Uninstaller** ist das Gegenstück: Du kannst **mehrere oder alle erkannten Packs in einem Durchgang zur Deinstallation auswählen**. Auf Wunsch werden auch ihre Zuordnungen zu Welten bereinigt – statt jede Installation einzeln aufräumen zu müssen.
+
+**Kurz gesagt: Eine Sammlung hinein, ein Installationsdurchlauf. Mehrere Packs auswählen, ein Deinstallationsdurchlauf.** Besonders praktisch für größere Modpacks, Testinstallationen und häufig wechselnde Add-on-Zusammenstellungen.
 
 ## ⬇️ Aktuelle Downloads
 
