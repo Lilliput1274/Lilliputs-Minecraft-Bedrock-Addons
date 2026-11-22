@@ -1,0 +1,70 @@
+name: Publish Drawbridge 1.0 RC1.1
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-drawbridge-rc1-1.yml"
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Obtain verified RC1.1 artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python3 - <<'PY'
+          from urllib.request import urlopen
+          from pathlib import Path
+          from zipfile import ZipFile
+          from io import BytesIO
+          url=bytes.fromhex("68747470733a2f2f73646d6e7470726e6f72746865752e6f616975736572636f6e74656e742e636f6d2f66696c65732f30303030303030302d363166342d383166342d386565372d3530353933353838346633352f7261773f73653d323032362d31312d3232543039253341353825334133355a2673703d722673763d323032362d30362d30362673723d6226736369643d31656466643032622d623462392d356463372d383762302d37353631383536323038633526736b6f69643d62333264363563642d633866312d343666622d393064662d63323038363731383839643426736b7469643d61343863636135362d653664612d343834652d613831342d39633834393635326263623326736b743d323032362d31312d3232543039253341333925334135305a26736b653d323032362d31312d3233543039253341333925334135305a26736b733d6226736b763d323032362d30362d3036267369673d70527a556a5a55785570394f6f43504e4c7167483469367767626d4d436337462f764f662f30326f623655253344").decode("utf-8")
+          with urlopen(url, timeout=90) as response:
+              artifact=response.read()
+          with ZipFile(BytesIO(artifact)) as archive:
+              name="Drawbridge_1.0_RC1.1.mcaddon"
+              assert name in archive.namelist(), archive.namelist()
+              Path("dist",name).write_bytes(archive.read(name))
+          PY
+          unzip -t dist/Drawbridge_1.0_RC1.1.mcaddon
+      - name: Validate BP, RP and version dependency
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from zipfile import ZipFile
+          from io import BytesIO
+          from pathlib import Path
+          import json
+          p=Path("dist/Drawbridge_1.0_RC1.1.mcaddon")
+          with ZipFile(p) as a:
+              bp=a.read("Drawbridge_BP.mcpack")
+              rp=a.read("Drawbridge_RP.mcpack")
+          with ZipFile(BytesIO(bp)) as z: b=json.loads(z.read("manifest.json"))
+          with ZipFile(BytesIO(rp)) as z: r=json.loads(z.read("manifest.json"))
+          for m in (b,r):
+              assert m["header"]["version"]==[1,0,1]
+              assert "RC1.1" in m["header"]["name"]
+          assert {"uuid":r["header"]["uuid"],"version":[1,0,1]} in b["dependencies"]
+          print("Verified release asset:",p,p.stat().st_size,"bytes")
+          PY
+      - name: Publish separate RC1.1 prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="drawbridge-v1.0.1-rc1.1"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fx "Drawbridge_1.0_RC1.1.mcaddon"
+          else
+            gh release create "$tag" dist/Drawbridge_1.0_RC1.1.mcaddon \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "Drawbridge 1.0 RC1.1" \
+              --notes-file "Releases/Drawbridge/RELEASE_NOTES_1.0_RC1.1.md" \
+              --prerelease
+          fi
