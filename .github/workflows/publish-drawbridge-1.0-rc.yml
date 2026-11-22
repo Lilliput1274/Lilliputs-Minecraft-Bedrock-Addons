@@ -1,0 +1,76 @@
+name: Publish Drawbridge 1.0 RC
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-drawbridge-1.0-rc.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out public release repository
+        uses: actions/checkout@v4
+
+      - name: Download verified Drawbridge master build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          gh run download 45000859962 \
+            --repo Lilliput1274/MineCraft_Addons \
+            --name Drawbridge-Bedrock \
+            --dir dist
+          test -s dist/Drawbridge_1.0_RC.mcaddon
+          unzip -t dist/Drawbridge_1.0_RC.mcaddon
+
+      - name: Verify package identity and matching BP/RP versions
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile
+          package = Path("dist/Drawbridge_1.0_RC.mcaddon")
+          assert package.is_file() and package.stat().st_size > 0
+          with ZipFile(package) as addon:
+              bp_bytes = addon.read("Drawbridge_BP.mcpack")
+              rp_bytes = addon.read("Drawbridge_RP.mcpack")
+          from io import BytesIO
+          with ZipFile(BytesIO(bp_bytes)) as bp, ZipFile(BytesIO(rp_bytes)) as rp:
+              bp_manifest = json.loads(bp.read("manifest.json"))
+              rp_manifest = json.loads(rp.read("manifest.json"))
+          for label, manifest in [("BP", bp_manifest), ("RP", rp_manifest)]:
+              assert manifest["header"]["version"] == [1, 0, 0], (label, manifest["header"]["version"])
+              assert "1.0 RC" in manifest["header"]["name"], (label, manifest["header"]["name"])
+          rp_uuid = rp_manifest["header"]["uuid"]
+          assert {"uuid": rp_uuid, "version": [1, 0, 0]} in bp_manifest["dependencies"], "BP->RP dependency mismatch"
+          print(f"Verified {package} ({package.stat().st_size} bytes), matching 1.0 RC packs")
+          PY
+
+      - name: Publish public prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="drawbridge-v1.0.0-rc1"
+          if gh release view "$tag" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "Release $tag exists; verifying asset."
+            gh release view "$tag" --repo "${GITHUB_REPOSITORY}" --json assets \
+              --jq '.assets[].name' | grep -Fx "Drawbridge_1.0_RC.mcaddon"
+          else
+            gh release create "$tag" dist/Drawbridge_1.0_RC.mcaddon \
+              --repo "${GITHUB_REPOSITORY}" \
+              --target "${GITHUB_SHA}" \
+              --title "Drawbridge 1.0 RC" \
+              --notes-file "Releases/Drawbridge/RELEASE_NOTES_1.0_RC.md" \
+              --prerelease
+          fi
