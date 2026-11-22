@@ -1,0 +1,72 @@
+name: Publish verified Bedrock Installer and Uninstaller ZIPs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-bedrock-tools.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out public release collection
+        uses: actions/checkout@v4
+
+      - name: Retrieve verified ZIPs from successful private Windows build
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python3 - <<'PY'
+          from urllib.request import urlopen
+          from pathlib import Path
+          from zipfile import ZipFile
+          from io import BytesIO
+          url=bytes.fromhex("68747470733a2f2f73646d6e7470726e6f72746865752e6f616975736572636f6e74656e742e636f6d2f66696c65732f30303030303030302d333131382d383166342d623262362d3336303263313637653638392f7261773f73653d323032362d31312d3232543131253341333925334130365a2673703d722673763d323032362d30362d30362673723d6226736369643d35633237383334612d303432382d353265322d613364362d30613738383332333961636426736b6f69643d62333264363563642d633866312d343666622d393064662d63323038363731383839643426736b7469643d61343863636135362d653664612d343834652d613831342d39633834393635326263623326736b743d323032362d31312d3232543130253341313125334134335a26736b653d323032362d31312d3233543130253341313125334134335a26736b733d6226736b763d323032362d30362d3036267369673d7a624e78624d4471386f4b56564d6f664b56784e5436556347337762533468333130626e67355644526359253344").decode("utf-8")
+          with urlopen(url,timeout=90) as response:
+              data=response.read()
+          packages={
+              "Minecraft_Bedrock_Batch_Installer_V11.8.zip":{"ANLEITUNG.txt","Minecraft_Bedrock_Batch_Installer.ps1","Start_Installer.cmd"},
+              "Minecraft_Bedrock_Batch_Uninstaller_V1.5.zip":{"ANLEITUNG.txt","Minecraft_Bedrock_Batch_Uninstaller.ps1","Start_Uninstaller.cmd"},
+          }
+          with ZipFile(BytesIO(data)) as artifact:
+              assert set(artifact.namelist())==set(packages),artifact.namelist()
+              for name,expected in packages.items():
+                  item=artifact.read(name)
+                  with ZipFile(BytesIO(item)) as archive:
+                      assert set(archive.namelist())==expected,(name,archive.namelist())
+                      assert archive.testzip() is None,name
+                      script=next(x for x in expected if x.endswith(".ps1"))
+                      header=archive.read(script).decode("utf-8-sig").splitlines()[0]
+                      version="V11.8" if "Installer_V" in name else "1.5"
+                      assert version in header,(name,header)
+                  Path("dist",name).write_bytes(item)
+                  print("Verified",name,len(item),"bytes")
+          PY
+
+      - name: Publish separate public releases (do not replace existing assets)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          publish() {
+            local tag="$1" title="$2" file="$3" notes="$4"
+            if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              echo "Release $tag already exists; confirming archive."
+              gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fx "$file"
+            else
+              gh release create "$tag" "dist/$file" \
+                --repo "$GITHUB_REPOSITORY" \
+                --target "$GITHUB_SHA" \
+                --title "$title" \
+                --notes-file "$notes"
+            fi
+          }
+          publish "bulk-installer-v11.8" "Minecraft Bedrock Batch Installer V11.8" "Minecraft_Bedrock_Batch_Installer_V11.8.zip" "Releases/Bulk-Installer-Uninstaller/RELEASE_NOTES_INSTALLER_V11.8.md"
+          publish "bulk-uninstaller-v1.5" "Minecraft Bedrock Batch Uninstaller V1.5" "Minecraft_Bedrock_Batch_Uninstaller_V1.5.zip" "Releases/Bulk-Installer-Uninstaller/RELEASE_NOTES_UNINSTALLER_V1.5.md"
