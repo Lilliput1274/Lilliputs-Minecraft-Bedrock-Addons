@@ -17,19 +17,91 @@ jobs:
       - name: Check out public release repository
         uses: actions/checkout@v4
 
-      - name: Download verified Drawbridge master build
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Check out pinned public source version
+        uses: actions/checkout@v4
+        with:
+          repository: Lilliput1274/MineCraft_Addons
+          ref: 0839476a90dcd9b41cfdf857dda14180096d8869
+          path: source
+          persist-credentials: false
+
+      - name: Generate package assets and sync Mojang materials
         shell: bash
+        working-directory: source
         run: |
           set -euo pipefail
-          mkdir -p dist
-          gh run download 45000859962 \
-            --repo Lilliput1274/MineCraft_Addons \
-            --name Drawbridge-Bedrock \
-            --dir dist
-          test -s dist/Drawbridge_1.0_RC.mcaddon
-          unzip -t dist/Drawbridge_1.0_RC.mcaddon
+          python3 -m pip install --user --disable-pip-version-check Pillow
+          python3 - <<'PY'
+          import json
+          from PIL import Image
+          from pathlib import Path
+          artwork=Path("Drawbridge/Images/a_detailed_cinematic_minecraft_style_promotional.png")
+          assert artwork.is_file()
+          with Image.open(artwork) as original:
+              assert original.width >= 1030 and original.height >= 930
+              icon=original.convert("RGB").crop((390,290,1030,930)).resize((256,256),Image.Resampling.LANCZOS)
+              for folder in ("BP","RP"):
+                  icon.save(Path("Drawbridge")/folder/"pack_icon.png",format="PNG")
+          paths=list(Path("Drawbridge/BP/blocks").glob("drawbridge_anchor*.json"))
+          paths+=list(Path("Drawbridge/BP/blocks").glob("drawbridge_chain_mount*.json"))
+          assert paths
+          for p in paths:
+              data=json.loads(p.read_text(encoding="utf-8"))
+              data["minecraft:block"]["description"]["menu_category"]={"category":"none"}
+              p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/Mojang/bedrock-samples.git /tmp/bedrock-samples
+          git -C /tmp/bedrock-samples sparse-checkout set resource_pack/textures/blocks
+          mkdir -p /tmp/bedrock-samples/resource_pack/texts
+          for lang in de_DE en_US; do
+            curl --fail --location --retry 3 --silent --show-error \
+              "https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/texts/${lang}.lang" \
+              -o "/tmp/bedrock-samples/resource_pack/texts/${lang}.lang"
+          done
+          python3 Drawbridge/Tools/sync_mojang_materials.py /tmp/bedrock-samples/resource_pack
+
+      - name: Validate and generate Drawbridge resources
+        shell: bash
+        working-directory: source
+        run: |
+          set -euo pipefail
+          node --check Drawbridge/BP/scripts/crafting.js
+          node --check Drawbridge/BP/scripts/dd_ui.js
+          node --check Drawbridge/BP/scripts/materials.js
+          python3 Drawbridge/Tools/generate_render_materials.py
+          python3 Drawbridge/Tools/validate_dd_ui.py
+          python3 Drawbridge/Tools/generate_material_items.py
+          python3 Drawbridge/Tools/generate_front_crossbars.py
+
+      - name: Package 1.0 RC MCADDON
+        shell: bash
+        working-directory: source
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile,ZIP_DEFLATED
+          root=Path("Drawbridge")
+          out=Path("../dist")
+          out.mkdir(exist_ok=True)
+          packages=[]
+          for folder,name in (("BP","Drawbridge_BP.mcpack"),("RP","Drawbridge_RP.mcpack")):
+              source=root/folder
+              manifest=json.loads((source/"manifest.json").read_text(encoding="utf-8"))
+              assert manifest["header"]["version"]==[1,0,0]
+              target=out/name
+              with ZipFile(target,"w",ZIP_DEFLATED) as archive:
+                  for p in sorted(source.rglob("*")):
+                      if p.is_file():
+                          archive.write(p,p.relative_to(source).as_posix())
+              packages.append(target)
+          with ZipFile(out/"Drawbridge_1.0_RC.mcaddon","w",ZIP_DEFLATED) as archive:
+              for p in packages:
+                  archive.write(p,p.name)
+          print("Created",out/"Drawbridge_1.0_RC.mcaddon")
+          PY
+          unzip -t ../dist/Drawbridge_1.0_RC.mcaddon
 
       - name: Verify package identity and matching BP/RP versions
         shell: bash
