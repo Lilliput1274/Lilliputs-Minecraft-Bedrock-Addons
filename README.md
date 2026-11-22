@@ -16,7 +16,7 @@ Hier findest du die veröffentlichten Versionen, Anleitungen und Versionshinweis
 
 ## ⬇️ Downloads
 
-Die veröffentlichten Downloads erscheinen unter **[GitHub Releases](../../releases)**. Für eine übersichtliche Sammlung erhält jedes Projekt einen eigenen Ordner unter `Releases/` mit Beschreibung und einem Link zu seinen Veröffentlichungen.
+Die veröffentlichten Downloads erscheinen unter **[GitHub Releases](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases)**. Für eine übersichtliche Sammlung erhält jedes Projekt einen eigenen Ordner unter `Releases/` mit Beschreibung und einem Link zu seinen Veröffentlichungen.
 
 **Geplante eindeutige Release-Tags** verhindern, dass sich verschiedene Projekte im selben Repository gegenseitig überlagern:
 
