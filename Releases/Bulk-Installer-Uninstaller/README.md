@@ -1,26 +1,39 @@
-# 🛠️ Bulk-Installer / Uninstaller
+# 🛠️ Minecraft Bedrock Batch Installer / Uninstaller
 
-**Werkzeuge zur Installation und Deinstallation mehrerer Minecraft-Bedrock-Add-ons unter Windows.**
+**Zwei eigenständige Windows-Werkzeuge zur Installation und Deinstallation von Minecraft-Bedrock-Add-ons.**
 
-Der Bulk-Installer und Uninstaller sind **separate Windows-Werkzeuge** und keine Minecraft-Behavior- oder Resource-Packs. Sie dienen dazu, mehrere Add-ons beziehungsweise Weltzuordnungen komfortabler zu verwalten.
+Beide Programme sind **keine Minecraft-Packs**. Die ZIP-Dateien werden unter Windows entpackt und über die enthaltene `.cmd`-Startdatei ausgeführt.
 
-## Veröffentlichungsstand
+## ⬇️ Aktuelle Downloads
 
-**Öffentliche Veröffentlichung in Vorbereitung.**
+| Werkzeug | Version | Download | Versionshinweise |
+| --- | --- | --- | --- |
+| **Installer** | **V11.8** | **[Installer V11.8 herunterladen (.zip)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/bulk-installer-v11.8/Minecraft_Bedrock_Batch_Installer_V11.8.zip)** | [Release ansehen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/bulk-installer-v11.8) |
+| **Uninstaller** | **V1.5** | **[Uninstaller V1.5 herunterladen (.zip)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/bulk-uninstaller-v1.5/Minecraft_Bedrock_Batch_Uninstaller_V1.5.zip)** | [Release ansehen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/bulk-uninstaller-v1.5) |
 
-Es existiert ein intern verwendeter Installer-/Uninstaller-Stand aus der bisherigen Entwicklung (unter anderem Version **V11_7**). Eine ausdrücklich geprüfte, zum öffentlichen Download freigegebene Paketversion ist in dieser Sammlung **noch nicht hinterlegt**.
+## 📦 Paketinhalt
 
-## Geplanter Downloadbereich
+**Installer V11.8:** `Minecraft_Bedrock_Batch_Installer.ps1`, `Start_Installer.cmd`, `ANLEITUNG.txt`.
 
-Hier werden später getrennt bereitgestellt:
+**Uninstaller V1.5:** `Minecraft_Bedrock_Batch_Uninstaller.ps1`, `Start_Uninstaller.cmd`, `ANLEITUNG.txt`.
 
-- **Bulk-Installer** – Paket zur Installation und Verwaltung von Add-ons
-- **Bulk-Uninstaller** – Paket zur gezielten Entfernung installierter Add-ons
-- **Anleitung** – Voraussetzungen, Start unter Windows, Sicherung und mögliche Fehlerfälle
-- **Versionshistorie** – Änderungen und Kompatibilität je Veröffentlichung
+## Funktionen
 
-[Nach veröffentlichten Installer-Releases suchen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases?q=bulk-installer&expanded=true)
+Der **Installer** erkennt vorhandene Packversionen und unterstützt neue Installationen, Updates und optional die Zuordnung zu Welten. Ein Downgrade auf eine niedrigere Version erfordert pro Pack eine ausdrückliche `[j/n]`-Bestätigung.
 
-> **Vor Verwendung:** Minecraft und geöffnete Welten schließen, Weltordner sichern und nicht ungeprüft fremde Installationspfade übernehmen. Eine Veröffentlichung erfolgt erst nach Paketprüfung.
+Der **Uninstaller** entfernt ausgewählte Packs und auf Wunsch deren Weltzuordnungen. Sicherungen werden zunächst versucht; schlägt eine Sicherung fehl, kann der Vorgang nur nach gesonderter Warnung und `[j/n]`-Bestätigung ohne vollständiges Backup fortgesetzt werden.
+
+## Installation und Sicherheit
+
+1. ZIP-Datei herunterladen und vollständig entpacken.
+2. Minecraft Bedrock vollständig beenden.
+3. Die passende `Start_Installer.cmd` oder `Start_Uninstaller.cmd` auf Windows ausführen.
+4. Den Anweisungen im Konsolenfenster folgen.
+
+**Vor Änderungen an wichtigen Welten ein eigenes Backup erstellen.** Für den Installer ist Windows PowerShell 5.1 oder PowerShell 7 vorgesehen.
+
+## Quelle und Build
+
+Die veröffentlichten Pakete stammen aus dem `master`-Branch von [MineCraft_Addons](https://github.com/Lilliput1274/MineCraft_Addons). Beide ZIPs wurden im [erfolgreichen Windows-Build](https://github.com/Lilliput1274/MineCraft_Addons/actions/runs/45017917187) erzeugt und geprüft.
 
 [⬅️ Zurück zur Add-on-Sammlung](../../README.md)
