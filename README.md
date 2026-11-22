@@ -12,7 +12,7 @@ Hier findest du die veröffentlichten Versionen, Anleitungen und Versionshinweis
 | --- | --- | --- | --- |
 | **🌉 Drawbridge** | Animierte Zugbrücken mit anpassbaren Materialien, Redstone und optionalen Ketten | **1.0 RC1.1** · Release Candidate | **[Drawbridge öffnen](./Releases/Drawbridge/README.md)** |
 | **📏 More_Build_Range** | Einstellbare Baureichweite für Minecraft Bedrock | **1.5.0 in Entwicklung** · noch kein freigegebener Download | **[More_Build_Range öffnen](./Releases/More_Build_Range/README.md)** |
-| **🛠️ Bulk-Installer / Uninstaller** | Werkzeuge zum Installieren und Entfernen mehrerer Bedrock-Add-ons | **Veröffentlichung in Vorbereitung** | **[Installer / Uninstaller öffnen](./Releases/Bulk-Installer-Uninstaller/README.md)** |
+| **🛠️ Bulk-Installer / Uninstaller** | Werkzeuge zum Installieren und Entfernen mehrerer Bedrock-Add-ons | **Installer V11.8 / Uninstaller V1.5** · verfügbar | **[Installer / Uninstaller öffnen](./Releases/Bulk-Installer-Uninstaller/README.md)** |
 
 ## ⬇️ Downloads
 
@@ -22,9 +22,12 @@ Die veröffentlichten Downloads erscheinen unter **[GitHub Releases](https://git
 
 - Drawbridge: `drawbridge-v1.0.1-rc1.1` (aktuell), `drawbridge-v1.0.0-rc1` (Archiv)
 - More_Build_Range: `more-build-range-vX.Y.Z`
-- Bulk-Installer / Uninstaller: `bulk-installer-vX.Y.Z`
+- Installer: `bulk-installer-v11.8`
+- Uninstaller: `bulk-uninstaller-v1.5`
 
-**Öffentlich verfügbar:** **[Drawbridge 1.0 RC1.1 direkt herunterladen (.mcaddon)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/drawbridge-v1.0.1-rc1.1/Drawbridge_1.0_RC1.1.mcaddon)** · [Versionshinweise und Release](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.1-rc1.1) · [RC1.0 (Archiv)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.0-rc1). Die beiden anderen Projektbereiche sind vorbereitet; dort ist noch kein freigegebener Download hinterlegt.
+**Öffentlich verfügbar:** **[Drawbridge 1.0 RC1.1 direkt herunterladen (.mcaddon)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/drawbridge-v1.0.1-rc1.1/Drawbridge_1.0_RC1.1.mcaddon)** · [Versionshinweise und Release](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.1-rc1.1) · [RC1.0 (Archiv)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.0-rc1). Für **Installer V11.8** und **Uninstaller V1.5** stehen ebenfalls öffentliche ZIP-Downloads bereit.
+
+**Windows-Werkzeuge:** [Installer V11.8 als ZIP herunterladen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/bulk-installer-v11.8/Minecraft_Bedrock_Batch_Installer_V11.8.zip) · [Uninstaller V1.5 als ZIP herunterladen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/bulk-uninstaller-v1.5/Minecraft_Bedrock_Batch_Uninstaller_V1.5.zip).
 
 ## 📥 Installation
 
