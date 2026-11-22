@@ -13,23 +13,16 @@
 
 ## ⬇️ Download
 
-**Offizielle öffentliche Releases dieser Sammlung:** [Drawbridge-Releases ansehen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases?q=drawbridge&expanded=true)
+### **[⬇️ Drawbridge 1.0 RC direkt herunterladen (.mcaddon)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/drawbridge-v1.0.0-rc1/Drawbridge_1.0_RC.mcaddon)**
 
-**Status:** Die neue Download-Sammlung wurde vorbereitet. **Das `.mcaddon` ist hier noch nicht als öffentlicher Release-Anhang hinterlegt.**
+**[Öffentliche Release-Seite mit Versionshinweisen](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.0-rc1)**
 
-Der geprüfte Build von 1.0 RC steht derzeit als GitHub-Actions-Artefakt im Entwicklungsrepository bereit:
+- **Datei:** `Drawbridge_1.0_RC.mcaddon` (BP und RP in einem Paket)
+- **Version:** 1.0 RC (als *Pre-release* markiert)
+- **Tag:** `drawbridge-v1.0.0-rc1`
+- **Herkunft:** erfolgreich geprüfter [Master-Build](https://github.com/Lilliput1274/MineCraft_Addons/actions/runs/45000859962)
 
-**[Drawbridge 1.0 RC – erfolgreicher Build](https://github.com/Lilliput1274/MineCraft_Addons/actions/runs/45000859962)**
-
-Dort das Artefakt `Drawbridge-Bedrock` herunterladen und entpacken. Es enthält:
-
-```text
-Drawbridge_1.0_RC.mcaddon
-Drawbridge_BP.mcpack
-Drawbridge_RP.mcpack
-```
-
-Zum späteren öffentlichen Einzel-Download ist das Release-Tag `drawbridge-v1.0.0-rc1` vorgesehen. Ein direkter Datei-Link wird ergänzt, sobald die Datei im öffentlichen Release veröffentlicht ist.
+**Der Download ist öffentlich.** Eine GitHub-Anmeldung ist für den Download über die Release-Seite nicht erforderlich.
 
 ## 🎮 Installation und Bedienung
 
