@@ -24,7 +24,7 @@ Die veröffentlichten Downloads erscheinen unter **[GitHub Releases](https://git
 - More_Build_Range: `more-build-range-vX.Y.Z`
 - Bulk-Installer / Uninstaller: `bulk-installer-vX.Y.Z`
 
-**Aktueller Download-Stand:** Die Projektseiten sind eingerichtet. Binärdateien werden erst als öffentliche Release-Anhänge angeboten, wenn sie hier tatsächlich hochgeladen und geprüft wurden. Der bereits erfolgreich gebaute Drawbridge 1.0 RC ist vorerst über den [Actions-Build im Entwicklungsrepository](https://github.com/Lilliput1274/MineCraft_Addons/actions/runs/45000859962) erhältlich; dafür kann eine GitHub-Anmeldung erforderlich sein.
+**Öffentlich verfügbar:** **[Drawbridge 1.0 RC direkt herunterladen (.mcaddon)](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/download/drawbridge-v1.0.0-rc1/Drawbridge_1.0_RC.mcaddon)** · [Versionshinweise und Release](https://github.com/Lilliput1274/Lilliputs-Minecraft-Bedrock-Addons/releases/tag/drawbridge-v1.0.0-rc1). Die beiden anderen Projektbereiche sind vorbereitet; dort ist noch kein freigegebener Download hinterlegt.
 
 ## 📥 Installation
 
